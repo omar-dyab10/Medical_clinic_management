@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -23,7 +24,14 @@ class User extends Authenticatable
         'phone',
         'role',
     ];
-
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

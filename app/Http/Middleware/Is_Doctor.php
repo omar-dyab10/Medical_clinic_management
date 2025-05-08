@@ -16,7 +16,7 @@ class Is_Doctor
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role !== 'doctor') {
+        if (Auth::user()->role !== 'doctor' && Auth::user()->role !== 'admin') {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         return $next($request);

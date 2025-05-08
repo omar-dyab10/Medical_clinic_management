@@ -16,5 +16,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::apiResource('users', UserController::class)->middleware(['auth:sanctum', 'is_admin']);
-Route::apiResource('doctors', DoctorController::class);
+Route::apiResource('doctors', DoctorController::class)->middleware('auth:sanctum');
 Route::apiResource('available-days', AvailableDayController::class)->middleware(['auth:sanctum', 'is_doctor']);

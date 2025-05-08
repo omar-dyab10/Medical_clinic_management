@@ -7,8 +7,9 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Patient;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -16,14 +17,18 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+
 
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'phone' => $validated['phone'],
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
             'role' => 'patient',
+        ]);
+        Patient::create([
+            'user_id' => $user->id,
+            'gender' => $request->gender,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -61,7 +66,6 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
-
         return response()->json([
             'message' => 'Logout successful'
         ], 200);

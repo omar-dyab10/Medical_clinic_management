@@ -13,12 +13,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    // Register a new user.
-
     public function register(RegisterRequest $request): JsonResponse
     {
-
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -39,9 +35,6 @@ class AuthController extends Controller
             'token' => $token
         ], 201);
     }
-
-    // Login a user.
-
     public function login(LoginRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -60,12 +53,8 @@ class AuthController extends Controller
             'token' => $token
         ], 200);
     }
-
-    // Logout a user.
-
     public function logout(Request $request): JsonResponse
     {
-         
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => 'Logout successful'

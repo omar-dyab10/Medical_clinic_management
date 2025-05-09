@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AvailableDayController;
 use App\Http\Controllers\Doctors\DoctorController;
+use App\Http\Controllers\BookingController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,3 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::apiResource('users', UserController::class)->middleware(['auth:sanctum', 'is_admin']);
 Route::apiResource('doctors', DoctorController::class);
 Route::apiResource('available-days', AvailableDayController::class)->middleware(['auth:sanctum', 'is_doctor']);
+
+
+Route::apiResource('bookings', BookingController::class);
+

@@ -23,6 +23,7 @@ Route::apiResource('doctors', DoctorController::class)->only(['index','show'])->
 Route::apiResource('available-days', AvailableDayController::class)->middleware(['auth:sanctum', 'is_doctor']);
 
 
-Route::apiResource('bookings', BookingController::class);
+Route::apiResource('bookings', BookingController::class) ->middleware('auth:sanctum');
+
 
 Route::apiResource('time-slots', TimeSlotController::class)->middleware(['auth:sanctum', 'is_doctor']);

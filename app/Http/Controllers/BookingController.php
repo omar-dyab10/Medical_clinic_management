@@ -62,7 +62,6 @@ class BookingController extends Controller
         }
 
         $booking->delete();
-
         return response()->json(['message' => 'Booking deleted']);
     }
 }

@@ -20,16 +20,14 @@ class UserController extends Controller
     }
     public function store(UserRequest $request)
     {
-        // dd($request->specialty);
         $user = User::create($request->only('name', 'email', 'password', 'phone', 'role'));
-        // dd($user->id);
         if ($user->role === 'doctor') {
             $doctor = Doctor::create([
                 'user_id' => $user->id,
                 'specialty' => $request->specialty
             ]);
             return response()->json([
-                'message' => 'User created successfully',
+                'message' => 'Doctor created successfully',
                 'user' => new DoctorResource($doctor)
             ], 201);
         }
@@ -49,9 +47,4 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
-
-
-
-
-
 }

@@ -32,6 +32,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Patient::class);
     }
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+    
     /**
      * The attributes that should be hidden for serialization.
      *

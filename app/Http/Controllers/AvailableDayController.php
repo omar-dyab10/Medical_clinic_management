@@ -7,17 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AvailableDayRequest;
 use App\Models\Time_slot;
 use Carbon\Carbon;
+use App\Http\Resources\AvailableDayResource;
 
 class AvailableDayController extends Controller
 {
     public function index()
     {
         $availableDays = Available_day::all();
-        return response()->json($availableDays);
+        return AvailableDayResource::collection($availableDays);
     }
     public function store(AvailableDayRequest $request)
     {
-        $availableDay = Available_day::create($request->all());
+        $availableDay = Available_day::create($request->validated());
         $startTime = Carbon::parse($request->start_time);
         $endTime = Carbon::parse($request->end_time);
         $slotDuration = 30;
@@ -35,15 +36,16 @@ class AvailableDayController extends Controller
             $startTime = $slotEnd;
         }
 
-        return response()->json(['message' => 'Available day created successfully', 'availableDay' => $availableDay], 201);
+        return response()->json(['message' => 'Available day created successfully', 'availableDay' => new AvailableDayResource($availableDay)], 201);
     }
     public function show(Available_day $availableDay)
     {
-        return response()->json($availableDay);
+        return new AvailableDayResource($availableDay);
     }
     public function update(AvailableDayRequest $request, Available_day $availableDay)
     {
         $availableDay->update($request->all());
+        return response()->json(['message' => 'Available day updated successfully', 'availableDay' => new AvailableDayResource($availableDay)], 200);
     }
     public function destroy(Available_day $availableDay)
     {

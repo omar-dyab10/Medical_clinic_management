@@ -13,4 +13,8 @@ class DoctorController extends Controller
         $doctors = Doctor::all();
         return DoctorResource::collection($doctors);
     }
+    public function show(Doctor $doctor)
+    {
+        return new DoctorResource($doctor);
+    }
 }
